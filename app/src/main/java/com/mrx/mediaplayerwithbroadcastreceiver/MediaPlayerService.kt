@@ -51,8 +51,14 @@ class MediaPlayerService : Service() {
                 action = BROADCAST_CONSTANTS.ID.value
                 putExtra(BROADCAST_CONSTANTS.STRING_DATA_TYPE_KEY.value, BROADCAST_CONSTANTS.STRING_DATA_DURATION_KEY.value)
                 putExtra(BROADCAST_CONSTANTS.DURATION_TRACK.value, mediaPlayer.duration.toString())
-                mediaPlayer.
             })
+
+            sendBroadcast(Intent().apply {
+                action = BROADCAST_CONSTANTS.ID.value
+                putExtra(BROADCAST_CONSTANTS.STRING_DATA_TYPE_KEY.value, BROADCAST_CONSTANTS.NOW_POSITION_TRACK_KEY.value)
+                putExtra(BROADCAST_CONSTANTS.NOW_POSITION_TRACK.value, mediaPlayer.currentPosition.toString())
+            })
+
             handler.postDelayed(sendSheduler, 1000L)
         }
     }

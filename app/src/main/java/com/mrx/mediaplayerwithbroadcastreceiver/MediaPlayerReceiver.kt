@@ -13,14 +13,25 @@ class MediaPlayerReceiver : BroadcastReceiver() {
         return liveDataDuration
     }
 
+    private val liveDataNowPosition by lazy { MutableLiveData<String>("") }
+    fun getLiveDataNowPosition(): LiveData<String> {
+        return liveDataNowPosition
+    }
+
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(MediaPlayerService.TAG, "MediaPlayerReceiver onReceive")
 
-        if (intent.getStringExtra(BROADCAST_CONSTANTS.STRING_DATA_TYPE_KEY.value) == BROADCAST_CONSTANTS.STRING_DATA_DURATION_KEY.value) {
-            Log.d("myTag", "MediaPlayerReceiver DURATION_TRACK")
-            Log.d("myTag", intent.getStringExtra(BROADCAST_CONSTANTS.DURATION_TRACK.value)?:"noooone")
+        when (intent.getStringExtra(BROADCAST_CONSTANTS.STRING_DATA_TYPE_KEY.value)) {
+            BROADCAST_CONSTANTS.STRING_DATA_DURATION_KEY.value -> {
+                Log.d("myTag", "MediaPlayerReceiver DURATION_TRACK")
 
-            liveDataDuration.value = intent.getStringExtra(BROADCAST_CONSTANTS.DURATION_TRACK.value)
+                liveDataDuration.value = intent.getStringExtra(BROADCAST_CONSTANTS.DURATION_TRACK.value)
+            }
+            BROADCAST_CONSTANTS.NOW_POSITION_TRACK_KEY.value -> {
+                Log.d("myTag", "MediaPlayerReceiver NOW_POSITION_TRACK")
+
+                liveDataNowPosition.value = intent.getStringExtra(BROADCAST_CONSTANTS.NOW_POSITION_TRACK.value)
+            }
         }
     }
 }
